@@ -26,14 +26,20 @@ connectToDatabase();
 
 //Middleware
 app.use(express.json())
-app.use(cors())
+app.use(cors({
+    origin: process.env.FRONTEND_APP_URL,
+    methods: ['GET', 'POST', 'PUT', 'DELETE'],
+    allowedHeaders: ['Content-Type', 'Authorization']
+}));
 
 //Route middleware 
 app.use('/api/user', authRoute);
-app.use('/api/posts', postRoute)
+app.use('/api/posts', postRoute);
 
 app.get('/', function (req, res) {
   res.send("hello World")
-})
+});
  
-app.listen(port)
+app.listen(port, () => {
+    console.log(`Server running on port ${port}`);
+});
