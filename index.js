@@ -8,8 +8,8 @@ const cors = require('cors')
 const authRoute = require('./routes/auth')
 const postRoute = require('./routes/posts')
 dotenv.config()
-//Connect to DB
 
+//Connect to DB
 const connectToDatabase = async () => {
     try {
       mongoose.connect(process.env.DB_CONNECT, {
