@@ -9,13 +9,20 @@ const authRoute = require('./routes/auth')
 const postRoute = require('./routes/posts')
 dotenv.config()
 //Connect to DB
-mongoose.connect(process.env.DB_CONNECT,(err)=>{
-    if(err) {
-        console.error(err);
-    } else {
-        console.log("Connected to DB");
+
+const connectToDatabase = async () => {
+    try {
+      mongoose.connect(process.env.DB_CONNECT, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      });
+      console.log("Connected to DB");
+    } catch (err) {
+      console.error("Failed to connect to DB", err);
     }
-})
+};
+
+connectToDatabase();
 
 //Middleware
 app.use(express.json())
