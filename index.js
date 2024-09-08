@@ -4,15 +4,6 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import authRoute from './routes/auth.js';
 import postRoute from './routes/posts.js';
-import {
-    S3Client,
-    PutObjectCommand,
-    CreateBucketCommand,
-    DeleteObjectCommand,
-    DeleteBucketCommand,
-    paginateListObjectsV2,
-    GetObjectCommand,
-  } from "@aws-sdk/client-s3"
 dotenv.config();
 
 const app = express();
