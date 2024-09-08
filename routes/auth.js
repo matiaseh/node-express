@@ -81,7 +81,7 @@ router.post('/login', async (req, res) => {
     if(!validPass) return res.status(400).send('Password is wrong');
 
     // Check if user has verified their email
-    if (!user.isVerified) return res.status(400).send('Please verify your email before logging in.');
+    if (!user.isVerified) return res.status(400).send('Please verify your email before logging in');
 
     //Create and assign token
     const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET)
