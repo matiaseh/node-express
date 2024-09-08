@@ -30,20 +30,15 @@ const createVerifiedTestUser = async () => {
     return verifiedTestUser;
 };
 
-// Cleanup test users
-const cleanupTestUsers = async () => {
-    await User.deleteMany({});
-};
-
-/* Connecting to the database before each test. */
+// Connecting to the database before each test
 beforeEach(async () => {
     await mongoose.connect(process.env.DB_CONNECT, { useNewUrlParser: true, useUnifiedTopology: true });
-    server = app.listen(); // Start the server before each test
+    server = app.listen();
 });
 
-/* Closing database connection and server after each test. */
+// Cleanup test users and closing database connection and server after each test
 afterEach(async () => {
-    await cleanupTestUsers();
+    await User.deleteMany({});
     await mongoose.connection.close();
     server.close();
 });
@@ -160,7 +155,7 @@ describe("GET /api/user/me", () => {
         expect(res.statusCode).toBe(401);
         expect(res.text).toBe('Access Denied');
     });
-    
+
     it("should return 200 with token from /login", async () => {
         await createVerifiedTestUser();
         const loginRes = await request(app)
