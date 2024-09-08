@@ -1,10 +1,18 @@
-const express = require('express');
-const mongoose = require('mongoose');
-const dotenv = require('dotenv');
-const cors = require('cors');
-const authRoute = require('./routes/auth');
-const postRoute = require('./routes/posts');
-
+import express from 'express';
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+import cors from 'cors';
+import authRoute from './routes/auth.js';
+import postRoute from './routes/posts.js';
+import {
+    S3Client,
+    PutObjectCommand,
+    CreateBucketCommand,
+    DeleteObjectCommand,
+    DeleteBucketCommand,
+    paginateListObjectsV2,
+    GetObjectCommand,
+  } from "@aws-sdk/client-s3"
 dotenv.config();
 
 const app = express();
@@ -41,10 +49,10 @@ app.get('/', function (req, res) {
     res.send("hello World");
 });
 
-if (require.main === module) {
+if (process.env.NODE_ENV !== 'test') {
     app.listen(port, () => {
         console.log(`Server running on port ${port}`);
     });
 }
 
-module.exports = app;
+export default app;

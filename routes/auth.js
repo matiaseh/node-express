@@ -1,11 +1,13 @@
-const router = require('express').Router();
-const User = require('../model/User');
-const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs');
-const verify = require('./verifyToken')
-const { registerValidation, loginValidation } = require('../validation');
-const sendVerificationEmail = require('../sendVerificationEmail')
-const crypto = require('crypto');
+import express from 'express';
+import User from '../model/User.js';
+import jwt from 'jsonwebtoken';
+import bcrypt from 'bcryptjs';
+import verify from './verifyToken.js';
+import { registerValidation, loginValidation } from '../validation.js';
+import sendVerificationEmail from '../sendVerificationEmail.js';
+import crypto from 'crypto';
+
+const router = express.Router();
 
 // Registration Routes
 router.post('/register', async (req, res) => {
@@ -98,4 +100,4 @@ router.get("/me", verify, async (req, res) => {
     }
 });
 
-module.exports = router;
+export default router;

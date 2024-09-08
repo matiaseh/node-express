@@ -1,4 +1,4 @@
-const Joi = require('joi');
+import Joi from 'joi';
 
 // Register Validation
 const registerValidation = (data) => {
@@ -19,5 +19,7 @@ const loginValidation = (data) => {
     return schema.validate(data);
 } 
 
-module.exports.registerValidation = registerValidation;
-module.exports.loginValidation = loginValidation;
+const _registerValidation = registerValidation;
+export { _registerValidation as registerValidation };
+const _loginValidation = loginValidation;
+export { _loginValidation as loginValidation };

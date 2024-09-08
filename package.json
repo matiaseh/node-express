@@ -22,5 +22,15 @@
     "mongoose": "^6.10.0",
     "nodemailer": "^6.9.15",
     "supertest": "^7.0.0"
+  },
+  "type": "module",
+  "devDependencies": {
+    "@babel/core": "^7.25.2",
+    "@babel/preset-env": "^7.25.4",
+    "@babel/preset-typescript": "^7.24.7",
+    "@types/jest": "^29.5.12",
+    "babel-jest": "^29.7.0",
+    "ts-jest": "^29.2.5",
+    "typescript": "^5.5.4"
   }
 }

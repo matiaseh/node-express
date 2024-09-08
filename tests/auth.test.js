@@ -1,8 +1,8 @@
-const mongoose = require("mongoose");
-const request = require("supertest");
-const app = require("../index");
-const User = require("../model/User");
-const bcrypt = require('bcryptjs');
+import { connect, connection } from "mongoose";
+import request from "supertest";
+import app from "../index.js";
+import User from "../model/User.js";
+import { genSalt, hash } from 'bcryptjs';
 
 let server;
 
@@ -13,8 +13,8 @@ const testUser = {
 };
 
 const hashPassword = async (password) => {
-    const salt = await bcrypt.genSalt(10);
-    return await bcrypt.hash(password, salt);
+    const salt = await genSalt(10);
+    return await hash(password, salt);
 };
 
 // Create a test user
@@ -32,14 +32,14 @@ const createVerifiedTestUser = async () => {
 
 // Connecting to the database before each test
 beforeEach(async () => {
-    await mongoose.connect(process.env.DB_CONNECT, { useNewUrlParser: true, useUnifiedTopology: true });
+    await connect(process.env.DB_CONNECT, { useNewUrlParser: true, useUnifiedTopology: true });
     server = app.listen();
 });
 
 // Cleanup test users and closing database connection and server after each test
 afterEach(async () => {
     await User.deleteMany({});
-    await mongoose.connection.close();
+    await connection.close();
     server.close();
 });
 
