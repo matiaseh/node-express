@@ -12,7 +12,8 @@ const port = process.env.PORT || 5000;
 // Connect to DB
 const connectToDatabase = async () => {
     try {
-        await mongoose.connect(process.env.DB_CONNECT, {
+        const dbUrl = process.env.NODE_ENV === 'test' ? process.env.DB_TEST_CONNECT : process.env.DB_CONNECT;
+        await mongoose.connect(dbUrl, {
             useNewUrlParser: true,
             useUnifiedTopology: true,
         });

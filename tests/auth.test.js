@@ -32,7 +32,7 @@ const createVerifiedTestUser = async () => {
 
 // Connecting to the database before each test
 beforeEach(async () => {
-    await connect(process.env.DB_CONNECT, { useNewUrlParser: true, useUnifiedTopology: true });
+    await connect(process.env.DB_TEST_CONNECT, { useNewUrlParser: true, useUnifiedTopology: true });
     server = app.listen();
 });
 
