@@ -160,6 +160,7 @@ describe("GET /api/user/me", () => {
         expect(res.statusCode).toBe(401);
         expect(res.text).toBe('Access Denied');
     });
+    
     it("should return 200 with token from /login", async () => {
         await createVerifiedTestUser();
         const loginRes = await request(app)
