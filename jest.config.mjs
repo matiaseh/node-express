@@ -4,5 +4,4 @@ export default {
     '^.+\\.tsx?$': 'ts-jest',
   },
   testEnvironment: 'node',
-  setupFiles: ['./jest.setup.js'],
 };
