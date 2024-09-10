@@ -35,7 +35,7 @@ app.use(
   cors({
     origin: process.env.FRONTEND_APP_URL,
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
-    allowedHeaders: ['Content-Type', 'Authorization', 'token'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
   })
 );
 
