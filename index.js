@@ -44,10 +44,6 @@ app.use('/api/user', authRoute);
 app.use('/api/users', usersRoute);
 app.use('/api/posts', postRoute);
 
-app.get('/', function (req, res) {
-  res.send('hello World');
-});
-
 if (process.env.NODE_ENV !== 'test') {
   app.listen(port, () => {
     console.log(`Server running on port ${port}`);
