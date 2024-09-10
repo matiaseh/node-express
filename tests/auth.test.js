@@ -142,7 +142,7 @@ describe('POST /api/user/login', () => {
   });
 });
 
-describe('GET /api/user/me', () => {
+describe('GET /api/user/', () => {
   it("should return 'Access Denied' without the token", async () => {
     const res = await request(app).get('/api/user/me');
     expect(res.statusCode).toBe(401);
@@ -156,7 +156,9 @@ describe('GET /api/user/me', () => {
       password: 'password123',
     });
     const token = JSON.parse(loginRes.text).token;
-    const res = await request(app).get('/api/user/me').set({ token: token });
+    const res = await request(app)
+      .get('/api/user/me')
+      .set({ Authorization: `Bearer ${token}` });
     expect(res.statusCode).toBe(200);
   });
 });

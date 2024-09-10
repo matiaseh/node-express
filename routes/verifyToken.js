@@ -3,7 +3,11 @@ const { verify } = pkg;
 
 // Check is user is authorised
 export default (req, res, next) => {
-  const token = req.header('Authorization').replace('Bearer ', '');
+  const authHeader = req.header('Authorization');
+  if (!authHeader) return res.status(401).send('Access Denied');
+
+  const token = authHeader.replace('Bearer ', '');
+  if (!token) return res.status(401).send('Access Denied');
 
   if (!token) return res.status(401).send('Access Denied');
   try {
