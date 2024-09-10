@@ -9,18 +9,17 @@ router.use(verify);
 // Create a new post
 router.post('/create', uploadImages, async (req, res) => {
   try {
-    const { title, plastic, flightNumbers } = req.body;
+    const { title, flightNumbers } = req.body;
     const user_id = req.user._id;
     console.log('File URLs in request:', req.fileUrls);
 
     // Validate required fields
-    if (!title || !plastic || !flightNumbers) {
+    if (!title || !flightNumbers) {
       return res.status(400).json({ message: 'Missing required fields' });
     }
 
     const newPost = new Post({
       title,
-      plastic,
       flightNumbers: JSON.parse(flightNumbers),
       images: req.fileUrls || [],
       user: user_id,
@@ -44,7 +43,9 @@ router.post('/create', uploadImages, async (req, res) => {
 // Get all posts from all users
 router.get('/', async (req, res) => {
   try {
-    const posts = await Post.find();
+    const posts = await Post.find()
+      .sort({ createdAt: -1 }) // Sort by createdAt in descending order
+      .exec();
 
     if (posts.length === 0) {
       return res.status(404).json({ message: 'No posts found' });

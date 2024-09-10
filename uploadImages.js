@@ -15,7 +15,10 @@ const s3 = new S3Client({
 });
 
 // Multer configuration for memory storage
-const upload = multer({ storage: multer.memoryStorage() });
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 5 * 1024 * 1024 }, // Limit file size
+});
 
 // Middleware function to handle file uploads
 export const uploadImages = async (req, res, next) => {

@@ -5,6 +5,7 @@ import cors from 'cors';
 import authRoute from './routes/auth.js';
 import usersRoute from './routes/users.js';
 import postRoute from './routes/posts.js';
+import discsRoute from './routes/discs.js';
 dotenv.config();
 
 const app = express();
@@ -43,6 +44,7 @@ app.use(
 app.use('/api/user', authRoute);
 app.use('/api/users', usersRoute);
 app.use('/api/posts', postRoute);
+app.use('/api/discs', discsRoute);
 
 if (process.env.NODE_ENV !== 'test') {
   app.listen(port, () => {
