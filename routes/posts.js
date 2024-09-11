@@ -1,6 +1,7 @@
 import express from 'express';
 import { uploadImages } from '../uploadImages.js';
 import Post from '../model/Post.js';
+import Disc from '../model/Disc.js';
 import verify from './verifyToken.js';
 const router = express.Router();
 
@@ -9,18 +10,22 @@ router.use(verify);
 // Create a new post
 router.post('/create', uploadImages, async (req, res) => {
   try {
-    const { title, flightNumbers } = req.body;
+    const { title, discId } = req.body;
     const user_id = req.user._id;
-    console.log('File URLs in request:', req.fileUrls);
+
+    const disc = await Disc.findById(discId);
+    if (!disc) {
+      return res.status(404).json({ message: 'Disc not found' });
+    }
 
     // Validate required fields
-    if (!title || !flightNumbers) {
+    if (!title || !discId) {
       return res.status(400).json({ message: 'Missing required fields' });
     }
 
     const newPost = new Post({
       title,
-      flightNumbers: JSON.parse(flightNumbers),
+      disc: disc,
       images: req.fileUrls || [],
       user: user_id,
     });
@@ -44,6 +49,7 @@ router.post('/create', uploadImages, async (req, res) => {
 router.get('/', async (req, res) => {
   try {
     const posts = await Post.find()
+      .populate('disc')
       .sort({ createdAt: -1 }) // Sort by createdAt in descending order
       .exec();
 

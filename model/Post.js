@@ -1,16 +1,10 @@
 import { Schema, model } from 'mongoose';
 
-const flightNumbersSchema = new Schema({
-  speed: { type: Number, required: true },
-  glide: { type: Number, required: true },
-  turn: { type: Number, required: true },
-  fade: { type: Number, required: true },
-});
-
 const postSchema = new Schema({
   title: { type: String, required: true },
-  flightNumbers: {
-    type: flightNumbersSchema,
+  disc: {
+    type: Schema.Types.ObjectId,
+    ref: 'Disc',
     required: true,
   },
   images: {
