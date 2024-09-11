@@ -7,6 +7,8 @@ const postSchema = new Schema({
     ref: 'Disc',
     required: true,
   },
+  price: { type: String, required: true },
+  description: { type: String, required: false },
   images: {
     type: [String],
     required: true,

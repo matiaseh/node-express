@@ -10,7 +10,7 @@ router.use(verify);
 // Create a new post
 router.post('/create', uploadImages, async (req, res) => {
   try {
-    const { title, discId } = req.body;
+    const { title, discId, price, description } = req.body;
     const user_id = req.user._id;
 
     const disc = await Disc.findById(discId);
@@ -19,13 +19,15 @@ router.post('/create', uploadImages, async (req, res) => {
     }
 
     // Validate required fields
-    if (!title || !discId) {
+    if (!title || !discId || !price) {
       return res.status(400).json({ message: 'Missing required fields' });
     }
 
     const newPost = new Post({
       title,
       disc: disc,
+      price: price,
+      description: description,
       images: req.fileUrls || [],
       user: user_id,
     });
