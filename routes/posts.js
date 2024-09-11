@@ -72,7 +72,10 @@ router.get('/me', verify, async (req, res) => {
   const userId = req.user._id;
 
   try {
-    const posts = await Post.find({ user: userId });
+    const posts = await Post.find({ user: userId })
+      .populate('disc')
+      .sort({ createdAt: -1 }) // Sort by createdAt in descending order
+      .exec();
 
     if (posts.length === 0) {
       return res.status(404).json({ message: 'No posts found for this user' });
@@ -91,7 +94,10 @@ router.get('/users/:user_id', verify, async (req, res) => {
   const { user_id } = req.params;
 
   try {
-    const posts = await Post.find({ user: user_id });
+    const posts = await Post.find({ user: user_id })
+      .populate('disc')
+      .sort({ createdAt: -1 }) // Sort by createdAt in descending order
+      .exec();
 
     if (posts.length === 0) {
       return res.status(404).json({ message: 'No posts found for this user' });
@@ -115,7 +121,11 @@ router.get('/:postId', verify, async (req, res) => {
   }
 
   try {
-    const post = await Post.findById(postId).populate('user'); // Ensure 'user' is correctly populated
+    const post = await Post.findById(postId)
+      .populate('disc')
+      .sort({ createdAt: -1 }) // Sort by createdAt in descending order
+      .exec();
+
     if (!post) {
       return res.status(404).json({ message: 'Post not found' });
     }
