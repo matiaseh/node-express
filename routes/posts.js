@@ -114,7 +114,6 @@ router.get('/users/:user_id', verify, async (req, res) => {
 // Get a specific post by post ID
 router.get('/:postId', verify, async (req, res) => {
   const { postId } = req.params;
-  console.log('Fetching post with ID:', postId);
 
   if (!postId) {
     return res.status(400).json({ message: 'Post ID is required' });

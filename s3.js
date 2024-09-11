@@ -12,5 +12,4 @@ const s3 = new S3Client({
   logger: console,
 });
 
-console.log(s3);
 export default s3;

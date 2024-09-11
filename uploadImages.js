@@ -46,8 +46,8 @@ export const uploadImages = async (req, res, next) => {
         uploadedFiles.push(fileUrl);
       }
 
-      console.log('Uploaded file URLs:', uploadedFiles); // Debugging line
-
+      /*       console.log('Uploaded file URLs:', uploadedFiles); // Debugging line
+       */
       req.fileUrls = uploadedFiles;
       next();
     } catch (uploadError) {

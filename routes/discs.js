@@ -7,7 +7,6 @@ const router = express.Router();
 router.get('/', async (req, res) => {
   try {
     const items = await Disc.find();
-    console.log(items);
     res.json(items);
   } catch (error) {
     console.error('Error fetching items:', error);
