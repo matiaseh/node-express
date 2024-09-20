@@ -2,7 +2,6 @@ import express from 'express';
 import User from '../model/User.js';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
-import verify from './verifyToken.js';
 import { registerValidation, loginValidation } from '../validation.js';
 import sendVerificationEmail from '../sendVerificationEmail.js';
 import crypto from 'crypto';
@@ -119,7 +118,7 @@ router.post('/refresh-token', (req, res) => {
 
     // Generate a new access token
     const accessToken = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET, {
-      expiresIn: '15s',
+      expiresIn: '1h',
     });
 
     res.send({ token: accessToken });
