@@ -88,22 +88,48 @@ router.post('/login', async (req, res) => {
   if (!user.isVerified)
     return res.status(400).send('Please verify your email before logging in');
 
-  const expiresIn = '1h';
-  //Create and assign token
-  const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET, {
-    expiresIn,
+  const refreshToken = jwt.sign(
+    { _id: user._id },
+    process.env.REFRESH_TOKEN_SECRET,
+    { expiresIn: '7d' }
+  );
+
+  // Set cookie options
+  res.cookie('refreshToken', refreshToken, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'Strict',
   });
-  res.header('auth-token', token).send({ token: token });
+
+  // Send access token
+  const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET, {
+    expiresIn: '1h',
+  });
+  res.header('auth-token', token).send({ token });
 });
 
-router.get('/me', verify, async (req, res) => {
-  try {
-    // request.user is getting fetched from Middleware after token authentication
-    const user = await User.findById(req.user._id);
-    res.status(200).json(user);
-  } catch (e) {
-    res.send({ message: 'Error fetching user' });
-  }
+// Refresh Token Route
+router.post('/refresh-token', (req, res) => {
+  const refreshToken = req.cookies.refreshToken;
+  if (!refreshToken) return res.status(401).send('Access Denied');
+
+  // Verify the refresh token
+  jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET, (err, user) => {
+    if (err) return res.status(403).send('Invalid Refresh Token');
+
+    // Generate a new access token
+    const accessToken = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET, {
+      expiresIn: '15s',
+    });
+
+    res.send({ token: accessToken });
+  });
+});
+
+// Logout Route
+router.post('/logout', (req, res) => {
+  res.clearCookie('refreshToken', { path: '/' });
+  res.send('Logged out successfully');
 });
 
 export default router;
